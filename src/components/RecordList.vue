@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="ctrl-toos">
-        <Button type="primary">添加</Button>
+        <Button type="primary" @click="addHealthRecord">添加</Button>
         <Select v-model="searchType" style="width:120px;margin-left:36px;margin-right:4px;">
             <Option v-for="item in searchTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
@@ -137,6 +137,9 @@ export default {
         }
     },
     methods: {
+        addHealthRecord: function () {
+            this.$router.push('entry-record');
+        },
         show (index) {
             this.$Modal.info({
                 title: 'User Info',
