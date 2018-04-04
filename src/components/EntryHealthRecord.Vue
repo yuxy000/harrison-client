@@ -240,7 +240,7 @@
                 </Col>
             </Row>
             <Row>
-                <!-- <Col span="6" offset="6">
+                <Col span="6" offset="6">
                     <FormItem>
                         <Button type="primary" @click="submitHandler">保存</Button>
                     </FormItem>
@@ -249,8 +249,7 @@
                     <FormItem>
                         <Button type="ghost" @click="cancelHandler">取消</Button>
                     </FormItem>
-                </Col> -->
-                
+                </Col>                
             </Row>
         </Form>
         <Modal
@@ -303,6 +302,7 @@
 </style>
 
 <script>
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -358,7 +358,21 @@
         },
         methods: {
             submitHandler: function () {
+                let vm = this;
+                console.log(vm.record);
+                if (this.record.id > 0) {
+
+                } else {
+                    axios.post('/harrison/addHealthRecordServlet', JSON.stringify(vm.record))
+                        .then(function (response) {
+                            console.log(response);
+                            vm.$router.push('/');
+                        })
+                        .catch(function (error) {
+                            console.log(response);
+                        });
                 
+                }
             },
             cancelHandler: function () {
 

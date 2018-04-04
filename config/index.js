@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+        '/harrison': {  //使用"/api"来代替"http://f.apiplus.c" 
+            target: 'http://localhost:8081', //源地址 
+            changeOrigin: true, //改变源 
+            pathRewrite: { 
+            '^/harrison': '/harrison' //路径重写 
+            } 
+        },
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

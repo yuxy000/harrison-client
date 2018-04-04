@@ -10,11 +10,12 @@
         </Input>
     </div>
    <Table border :columns="tableColumns" :data="records"></Table>
-   <Page class-name="i-page" :total="100" show-elevator></Page>
+   <Page class-name="i-page" :total="recordTotal" show-elevator></Page>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data () {
         return {
@@ -28,6 +29,7 @@ export default {
                 {
                     title: 'ID',
                     key: 'id',
+                    width: 80
                 },
                 {
                     title: '序号',
@@ -52,11 +54,13 @@ export default {
                 },
                 {
                     title: '年龄',
-                    key: 'age'
+                    key: 'age',
+                    width: 80
                 },
                 {
                     title: '身份证号',
-                    key: 'pinNo'
+                    key: 'pinNo',
+                    width: 180
                 },
                 {
                     title: '岗位',
@@ -64,7 +68,8 @@ export default {
                 },
                 {
                     title: '工龄',
-                    key: 'workDuration'
+                    key: 'workDuration',
+                    width:80
                 },
                 {
                     title: '民族',
@@ -128,15 +133,27 @@ export default {
                     }
                 }
             ],
-            records: [
-                {"id":8,"serialNo":"13110020180004","company":"","name":"Tom","gender":"M","age":0,"nationality":"","education":""},
-                {"id":7,"serialNo":"13110020180003","company":"","name":"Jhon","gender":"N","age":0,"nationality":"","education":""},
-                {"id":6,"serialNo":"13110020180002","company":"","name":"范冰冰","gender":"F","age":0,"nationality":"","education":""},
-                {"id":5,"serialNo":"13110020180001","company":"","name":"李晨","gender":"N","age":0,"nationality":"","education":""}
-            ]
+            records: [],
+            recordTotal: 0
         }
     },
+    created: function () {
+        this.getHealthRecord();
+    },
     methods: {
+        getHealthRecord: function () {
+            let vm = this;
+            axios.post('/harrison/tableJsonTest?rows=10&page=1')
+                .then(function (response) {
+                    console.log(response);
+                    vm.records = response.data.rows;
+                    vm.recordTotal = response.data.total;
+                })
+                .catch(function (error) {
+                    console.log(response);
+                });
+
+        },
         addHealthRecord: function () {
             this.$router.push('entry-record');
         },
