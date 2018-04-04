@@ -356,6 +356,11 @@
                 }
             }
         },
+        created: function () {
+            if (this.$route.params.id) {
+                this.getHealthRecordById(this.$route.params.id);
+            }
+        },
         methods: {
             submitHandler: function () {
                 let vm = this;
@@ -369,13 +374,24 @@
                             vm.$router.push('/');
                         })
                         .catch(function (error) {
-                            console.log(response);
+                            console.log(error);
                         });
                 
                 }
             },
+            getHealthRecordById: function (id) {
+                let vm = this;
+                axios.post('/harrison/getHealthRecordByIdServlet?id=' + id)
+                        .then(function (response) {
+                            console.log(response);
+                            vm.record = Object.assign({}, response.data);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+            },
             cancelHandler: function () {
-
+                this.$router.push('/');
             },
             makePhoto: function () {
                 if (this.photo == '') {

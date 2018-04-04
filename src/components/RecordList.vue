@@ -100,7 +100,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.show(params.index)
+                                        this.show(params.row.id)
                                     }
                                 }
                             }, '预览'),
@@ -114,7 +114,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.show(params.index)
+                                        this.updateRecord(params.row.id);
                                     }
                                 }
                             }, '修改'),
@@ -125,7 +125,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.remove(params.index)
+                                        this.remove(params.row.id)
                                     }
                                 }
                             }, '删除')
@@ -150,21 +150,28 @@ export default {
                     vm.recordTotal = response.data.total;
                 })
                 .catch(function (error) {
-                    console.log(response);
+                    console.log(error);
                 });
 
         },
         addHealthRecord: function () {
             this.$router.push('entry-record');
         },
-        show (index) {
-            this.$Modal.info({
-                title: 'User Info',
-                content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`
-            })
+        updateRecord (recordId) {
+            this.$router.push('/entry-record/' + recordId);
         },
-        remove (index) {
-            this.data6.splice(index, 1);
+        show: function (recordId) {
+            this.$router.push('/show-record/' + recordId);
+        },
+        remove (recordId) {
+            let vm = this;
+            axios.post('/harrison/deleteHealthRecordServlet?deleteIDs=' + recordId)
+                .then(function (response) {
+                   vm.getHealthRecord();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     }
 }
