@@ -1,11 +1,15 @@
 <template>
     <div class="content">
+        <Spin fix v-if="loading">
+            <Icon type="load-c" size="73" class="spin-icon-load"></Icon>
+            <div style="font-size:18px;margin-top:8px;">Loading...</div>
+        </Spin>
         <h1>河北省食品药品从业人员健康检查表</h1>
         <Form :label-width="80" :model="record">
             <Row>
                 <Col span="6">
                     <FormItem label="体检日期:" style="width:240px">
-                        <DatePicker type="date" placeholder="选择体检日期" v-model="record.check_date"></DatePicker>
+                        <DatePicker type="date" placeholder="选择体检日期" v-model="record.check_date" format="yyyy 年 MM 月 dd 日" @on-change="record.check_date=$event"></DatePicker>
                     </FormItem>
                 </Col>
             
@@ -80,41 +84,44 @@
                     </FormItem>
                 </Col>
                  <Col span="6" offset="6">
-                    <img class="user-photo" :src="record.photo" width="200" height="150" @click="makePhoto"/>
+                    <div class="photo-div"  @click="makePhoto">
+                        <img class="user-photo" :src="record.photo" width="100%" height="100%" v-show="record.photo"/>
+                    </div>
+                    
                 </Col>
             </Row>
             <h2>既往病史</h2>
             <Row>
                 <Col span="6">
                     <FormItem label="肝病:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.liver_time"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.liver_time" format="yyyy 年 MM 月 dd 日" @on-change="record.liver_time=$event"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="6">
                     <FormItem label="痢疾:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.dysentery_time"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.dysentery_time" format="yyyy 年 MM 月 dd 日" @on-change="record.dysentery_time=$event"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="6">
                     <FormItem label="伤寒:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.typhoid_time"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.typhoid_time" format="yyyy 年 MM 月 dd 日" @on-change="record.typhoid_time=$event"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="6">
                     <FormItem label="肺结核:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.phthisic_time"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.phthisic_time" format="yyyy 年 MM 月 dd 日" @on-change="record.phthisic_time=$event"></DatePicker>
                     </FormItem>
                 </Col>
             </Row>
             <Row>
                 <Col span="6">
                     <FormItem label="皮肤病:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.dermatitis_time"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.dermatitis_time" format="yyyy 年 MM 月 dd 日" @on-change="record.dermatitis_time=$event"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="6">
                     <FormItem label="其他:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.other_time"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.other_time" format="yyyy 年 MM 月 dd 日" @on-change="record.other_time=$event"></DatePicker>
                     </FormItem>
                 </Col>
             </Row>
@@ -255,14 +262,17 @@
         <Modal
             v-model="showModel"
             title="拍照"
+            width="702"
             @on-ok="okHandler"
             @on-cancel="cancelPhotoHandler">
              
             <div class="booth">
-                <video ref="video" width="200" height="150"></video>
+                <video ref="video" width="295" height="416"></video>
                 <Button type="primary" @click="snap" style="width:60px;height:32px;">拍照</Button>
-                
-                <canvas ref='canvas' width='200' height='150'></canvas>
+                <div class="photo-canvas">
+                    <canvas ref='canvas' width='295' height='413'></canvas>
+                </div>
+               
             </div>
         </Modal>
     </div>
@@ -287,7 +297,11 @@
         margin-bottom: 6px;
     }
 
-    .user-photo {
+    .photo-div {
+        width:148px;
+        height:206px; 
+        background-image: url('../assets/user.jpg'); 
+        background-size: 148px 206px;
         margin-top: -200PX;
     }
 
@@ -297,6 +311,13 @@
         background:#ccc;
         border: 10px solid #ddd;
         margin: 0 auto;
+    }
+
+    .photo-canvas {
+        width: 295px;
+        height: 413px;
+        background-image: url('../assets/user.jpg');
+        background-size: 295px 413px; 
     }
 
 </style>
@@ -310,6 +331,7 @@
                 mediaStreamTrack: {
 
                 },
+                loading: false,
                 record: {
                     id: 0,
                     serial_no: '',
@@ -317,7 +339,7 @@
                     company_type: '',
                     name: '',
                     gender: '',
-                    age: 0,
+                    age: '0',
                     nationality: '',
                     education: '',
                     station: '',
@@ -337,7 +359,7 @@
                     other_status: '',
                     eye_left: '',
                     eye_right: '',
-                    ye_color: '',
+                    eye_color: '',
                     xray: '',
                     excrement_dysentery: '',
                     excrement_wind_cold: '',
@@ -349,6 +371,7 @@
                     eye_op: '',
                     xray_op: '',
                     excrement_op: '',
+                    liver_op: '',
                     conclusion_op: '',
                     conclusion_date: '',
                     check_date: '',
@@ -358,6 +381,7 @@
         },
         created: function () {
             if (this.$route.params.id) {
+                this.loading = true;
                 this.getHealthRecordById(this.$route.params.id);
             }
         },
@@ -366,7 +390,14 @@
                 let vm = this;
                 console.log(vm.record);
                 if (this.record.id > 0) {
-
+                    axios.post('/harrison/updateHealthRecordServlet', JSON.stringify(vm.record))
+                        .then(function (response) {
+                            console.log(response);
+                            vm.$router.push('/');
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 } else {
                     axios.post('/harrison/addHealthRecordServlet', JSON.stringify(vm.record))
                         .then(function (response) {
@@ -384,10 +415,13 @@
                 axios.post('/harrison/getHealthRecordByIdServlet?id=' + id)
                         .then(function (response) {
                             console.log(response);
-                            vm.record = Object.assign({}, response.data);
+                            vm.record = Object.assign(vm.record, response.data);
+                            vm.loading = false;
+                             console.log(vm.record);
                         })
                         .catch(function (error) {
                             console.log(error);
+                            vm.loading = false;
                         });
             },
             cancelHandler: function () {
@@ -407,7 +441,10 @@
                                     navigator.mozGetUserMedia ||
                                     navigator.msGetUserMedia;
                 navigator.getMedia({
-                    video: true, //使用摄像头对象
+                    video: { 
+                        width: 295, 
+                        height: 413 
+                    }, 
                     audio: false,  //不适用音频
                 }, function(stream){
                     vm.mediaStreamTrack = typeof stream.stop === 'function' ? stream : stream.getTracks()[1];
@@ -422,16 +459,17 @@
             okHandler: function () {
                 this.mediaStreamTrack && mediaStreamTrack.stop();
                 this.record.photo = this.$refs.canvas.toDataURL("image/png");
-                this.$refs.canvas.getContext('2d').clearRect(0, 0, 200, 150);
+                console.log(this.record.photo);
+                this.$refs.canvas.getContext('2d').clearRect(0, 0, 295, 413);
 
             },
             cancelPhotoHandler: function () {
                 this.mediaStreamTrack && mediaStreamTrack.stop();
-                this.$refs.canvas.getContext('2d').clearRect(0, 0, 200, 150);
+                this.$refs.canvas.getContext('2d').clearRect(0, 0, 295, 413);
             },
             snap: function () {
                 //绘制canvas图形
-                this.$refs.canvas.getContext('2d').drawImage(this.$refs.video, 0, 0, 200, 150);
+                this.$refs.canvas.getContext('2d').drawImage(this.$refs.video, 0, 0, 295, 413);
             }
          }
     }

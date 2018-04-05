@@ -1,16 +1,23 @@
 <template>
   <div class="container">
+    <Spin fix v-if="loading">
+        <Icon type="load-c" size="73" class="spin-icon-load"></Icon>
+        <div style="font-size:18px;margin-top:8px;">Loading...</div>
+    </Spin>
     <div class="ctrl-toos">
         <Button type="primary" @click="addHealthRecord">添加</Button>
         <Select v-model="searchType" style="width:120px;margin-left:36px;margin-right:4px;">
             <Option v-for="item in searchTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Input v-model="searchValue" style="width:240px;">
-            <Button slot="append" icon="ios-search"></Button>
+        <Input v-model="searchValue" style="width:240px;" @on-enter="searchRecord">
+            <Button slot="append" icon="ios-search" @click="searchRecord"></Button>
         </Input>
     </div>
-   <Table border :columns="tableColumns" :data="records"></Table>
-   <Page class-name="i-page" :total="recordTotal" show-elevator></Page>
+   <Table border :columns="tableColumns" :data="records" class="record-table" :height="tableHeight"></Table>
+   <div class="i-page">
+        <Page :total="recordTotal" show-sizer @on-change="pageChangeHandler" @on-page-size-change="pageSizeChangeHandler"></Page>
+   </div>
+   
   </div>
 </template>
 
@@ -20,9 +27,13 @@ export default {
     data () {
         return {
             searchType: 'name',
+            loading:true,
+            page: 1,
+            pageSize:10,
+            tableHeight:640,
             searchTypes: [
                 { label: '按姓名查询', value: 'name' },
-                { label: '按身份证查询', value: 'pinNo' }
+                { label: '按身份证查询', value: 'pin_no' }
             ],
             searchValue: '',
             tableColumns: [
@@ -33,7 +44,7 @@ export default {
                 },
                 {
                     title: '序号',
-                    key: 'serialNo'
+                    key: 'serial_no'
                 },
                 {
                     title: '姓名',
@@ -59,7 +70,7 @@ export default {
                 },
                 {
                     title: '身份证号',
-                    key: 'pinNo',
+                    key: 'pin_no',
                     width: 180
                 },
                 {
@@ -68,7 +79,7 @@ export default {
                 },
                 {
                     title: '工龄',
-                    key: 'workDuration',
+                    key: 'work_duration',
                     width:80
                 },
                 {
@@ -81,7 +92,7 @@ export default {
                 },
                 {
                     title: '体检日期',
-                    key: 'checkDate'
+                    key: 'check_date'
                 },
                 {
                     title: 'Action',
@@ -137,22 +148,37 @@ export default {
             recordTotal: 0
         }
     },
+    mounted: function () {
+        this.tableHeight = window.innerHeight - 102; 
+    },
     created: function () {
         this.getHealthRecord();
     },
     methods: {
         getHealthRecord: function () {
             let vm = this;
-            axios.post('/harrison/tableJsonTest?rows=10&page=1')
+            axios.post('/harrison/tableJsonTest?rows=' + this.pageSize + '&page=' + this.page + '&' + this.searchType + '=' + this.searchValue)
                 .then(function (response) {
                     console.log(response);
                     vm.records = response.data.rows;
                     vm.recordTotal = response.data.total;
+                    vm.loading = false;
                 })
                 .catch(function (error) {
                     console.log(error);
+                    vm.loading = false;
                 });
 
+        },
+        pageChangeHandler: function (page) {
+            this.page = page;
+            this.loading = true;
+            this.getHealthRecord();
+        },
+        pageSizeChangeHandler: function (pageSize) {
+            this.pageSize = pageSize;
+            this.loading = true;
+            this.getHealthRecord();
         },
         addHealthRecord: function () {
             this.$router.push('entry-record');
@@ -165,13 +191,24 @@ export default {
         },
         remove (recordId) {
             let vm = this;
-            axios.post('/harrison/deleteHealthRecordServlet?deleteIDs=' + recordId)
-                .then(function (response) {
-                   vm.getHealthRecord();
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            this.$Modal.warning({
+                title: '提示',
+                content: "<p>确认删除吗，删除后无法恢复！</p>",
+                onOk: () => {
+                axios.post('/harrison/deleteHealthRecordServlet?deleteIDs=' + recordId)
+                    .then(function (response) {
+                        vm.getHealthRecord();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }
+                
+            });
+        },
+        searchRecord: function () {
+            this.loading = true;
+            this.getHealthRecord();
         }
     }
 }
@@ -182,6 +219,7 @@ export default {
     .container {
         width: 100%;
         height: 100%;
+        overflow: hidden;
     }
 
     .ctrl-toos {
@@ -194,7 +232,15 @@ export default {
     .toos-item {
         margin-right: 10px;
     }
+
+    .record-table {
+        height: calc(100% - 96px);
+    }
+
     .i-page {
-        margin-top: 8px;
+        height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>
