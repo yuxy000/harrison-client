@@ -15,7 +15,7 @@
     </div>
    <Table border :columns="tableColumns" :data="records" class="record-table" :height="tableHeight"></Table>
    <div class="i-page">
-        <Page :total="recordTotal" show-sizer @on-change="pageChangeHandler" @on-page-size-change="pageSizeChangeHandler"></Page>
+        <Page :total="recordTotal" show-sizer show-total @on-change="pageChangeHandler" @on-page-size-change="pageSizeChangeHandler"></Page>
    </div>
    
   </div>
@@ -97,7 +97,7 @@ export default {
                 {
                     title: 'Action',
                     key: 'action',
-                    width: 200,
+                    width: 240,
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
@@ -115,6 +115,21 @@ export default {
                                     }
                                 }
                             }, '预览'),
+                            h('Button', {
+                                props: {
+                                    type: 'primary',
+                                    size: 'small',
+                                    title: '生成证件'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.update(params.row.id)
+                                    }
+                                },
+                                style: {
+                                    marginRight: '5px'
+                                },
+                            }, '证件'),
                             h('Button', {
                                 props: {
                                     type: 'primary',
@@ -188,6 +203,9 @@ export default {
         },
         show: function (recordId) {
             this.$router.push('/show-record/' + recordId);
+        },
+        update: function (recordId) {
+            this.$router.push('/health-certificate/' + recordId);
         },
         remove (recordId) {
             let vm = this;

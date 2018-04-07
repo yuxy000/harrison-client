@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/harrison': {  //使用"/api"来代替"http://f.apiplus.c" 
-            target: 'http://localhost:8080', //源地址 http://47.104.6.3:8080
-            changeOrigin: true, //改变源 
-            pathRewrite: { 
-            '^/harrison': '/harrison' //路径重写 
-            } 
-        },
+        // '/harrison': {  //使用"/api"来代替"http://f.apiplus.c" 
+        //     target: 'http://localhost:8080', //源地址 http://47.104.6.3:8080
+        //     changeOrigin: true, //改变源 
+        //     pathRewrite: { 
+        //     '^/harrison': '/harrison' //路径重写 
+        //     } 
+        // },
     },
 
     // Various Dev Server settings

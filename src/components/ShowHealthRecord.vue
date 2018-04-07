@@ -106,13 +106,13 @@
                         <td rowspan="2" style="width:80px;">
                             <div style="width:42px;margin:0 auto;">既往病史</div>
                         </td>
-                        <td style="width:120px;">病&nbsp;&nbsp;&nbsp;&nbsp;名</td>
-                        <td>肝&nbsp;&nbsp;&nbsp;&nbsp;类</td>
-                        <td>痢&nbsp;&nbsp;&nbsp;&nbsp;疾</td>
-                        <td>伤&nbsp;&nbsp;&nbsp;&nbsp;寒</td>
-                        <td>肺结核</td>
-                        <td>皮肤病</td>
-                        <td>其&nbsp;&nbsp;&nbsp;&nbsp;他</td>
+                        <td style="width:180px;">病&nbsp;&nbsp;&nbsp;&nbsp;名</td>
+                        <td style="width:180px;">肝&nbsp;&nbsp;&nbsp;&nbsp;类</td>
+                        <td style="width:180px;">痢&nbsp;&nbsp;&nbsp;&nbsp;疾</td>
+                        <td style="width:180px;">伤&nbsp;&nbsp;&nbsp;&nbsp;寒</td>
+                        <td style="width:180px;">肺结核</td>
+                        <td style="width:180px;">皮肤病</td>
+                        <td style="width:180px;">其&nbsp;&nbsp;&nbsp;&nbsp;他</td>
                     </tr>
                     <tr>
                         <!-- <td>111</td> -->
@@ -228,6 +228,7 @@
     .content {
         font-size: 16px;
         margin: 0px 200px;
+        min-width: 1300px;
     }
 
     .ctrl-tools {
@@ -303,6 +304,8 @@
     }
 </style>
 <script>
+    // import {html2canvas,onrendered, canvas} from 'html2canvas';
+    // import jsPDF from 'jspdf'
     import axios from 'axios';
     export default {
         data: function () {

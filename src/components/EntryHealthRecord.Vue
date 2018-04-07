@@ -9,7 +9,7 @@
             <Row>
                 <Col span="6">
                     <FormItem label="体检日期:" style="width:240px">
-                        <DatePicker type="date" placeholder="选择体检日期" v-model="record.check_date" format="yyyy 年 MM 月 dd 日" @on-change="record.check_date=$event"></DatePicker>
+                        <DatePicker type="date" placeholder="选择体检日期" v-model="record.check_date" @on-change="getTime('check_date', $event)"></DatePicker>
                     </FormItem>
                 </Col>
             
@@ -94,34 +94,34 @@
             <Row>
                 <Col span="6">
                     <FormItem label="肝病:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.liver_time" format="yyyy 年 MM 月 dd 日" @on-change="record.liver_time=$event"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.liver_time" @on-change="getTime('liver_time', $event)"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="6">
                     <FormItem label="痢疾:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.dysentery_time" format="yyyy 年 MM 月 dd 日" @on-change="record.dysentery_time=$event"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.dysentery_time" @on-change="getTime('dysentery_time', $event)"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="6">
                     <FormItem label="伤寒:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.typhoid_time" format="yyyy 年 MM 月 dd 日" @on-change="record.typhoid_time=$event"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.typhoid_time" @on-change="getTime('typhoid_time', $event)"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="6">
                     <FormItem label="肺结核:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.phthisic_time" format="yyyy 年 MM 月 dd 日" @on-change="record.phthisic_time=$event"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.phthisic_time" @on-change="getTime('phthisic_time', $event)"></DatePicker>
                     </FormItem>
                 </Col>
             </Row>
             <Row>
                 <Col span="6">
                     <FormItem label="皮肤病:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.dermatitis_time" format="yyyy 年 MM 月 dd 日" @on-change="record.dermatitis_time=$event"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.dermatitis_time" @on-change="getTime('dermatitis_time', $event)"></DatePicker>
                     </FormItem>
                 </Col>
                 <Col span="6">
                     <FormItem label="其他:" style="width:240px">
-                        <DatePicker type="date" placeholder="发病日期" v-model="record.other_time" format="yyyy 年 MM 月 dd 日" @on-change="record.other_time=$event"></DatePicker>
+                        <DatePicker type="date" placeholder="发病日期" v-model="record.other_time" @on-change="getTime('other_time', $event)"></DatePicker>
                     </FormItem>
                 </Col>
             </Row>
@@ -328,9 +328,6 @@
         data() {
             return {
                 showModel: false,
-                mediaStreamTrack: {
-
-                },
                 loading: false,
                 record: {
                     id: 0,
@@ -386,6 +383,11 @@
             }
         },
         methods: {
+            getTime: function(timeType,time) {
+                console.log(timeType);
+                console.log(time);
+                this.record[timeType] = time;
+            },
             submitHandler: function () {
                 let vm = this;
                 console.log(vm.record);
@@ -457,14 +459,12 @@
                 });
             },
             okHandler: function () {
-                this.mediaStreamTrack && mediaStreamTrack.stop();
                 this.record.photo = this.$refs.canvas.toDataURL("image/png");
                 console.log(this.record.photo);
                 this.$refs.canvas.getContext('2d').clearRect(0, 0, 295, 413);
 
             },
             cancelPhotoHandler: function () {
-                this.mediaStreamTrack && mediaStreamTrack.stop();
                 this.$refs.canvas.getContext('2d').clearRect(0, 0, 295, 413);
             },
             snap: function () {
