@@ -80,21 +80,25 @@
         height:336px; 
         background-image: url('../assets/user.jpg'); 
         background-size: 240px 336px;
-        margin-top: -340px;
+        margin-top: -330px;
         margin-left: 80px;
     }
 
     .check-table {
         padding: 64px 64px 96px 64px;
-        background-color: #ddd;
         border: 1px solid #ddd;
+        background-color: #fff;
         border-radius: 6px;
-        height: 500px;
+        height: 634px;
         width: 900px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .row {
         padding: 32px 0;
+        width: 900px;
     }
 
 

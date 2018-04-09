@@ -4,6 +4,7 @@ import RecordList from '@/components/RecordList'
 import EntryHealthRecord from '@/components/EntryHealthRecord'
 import ShowHealthRecord from '@/components/ShowHealthRecord'
 import HealthCertificate from '@/components/HealthCertificate'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
       path: '/health-certificate/:id',
       name: 'HealthCertificate',
       component: HealthCertificate    
-    }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
   ]
 })

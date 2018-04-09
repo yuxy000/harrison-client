@@ -44,15 +44,18 @@ export default {
                 },
                 {
                     title: '序号',
-                    key: 'serial_no'
+                    key: 'serial_no',
+                    width:180
                 },
                 {
                     title: '姓名',
-                    key: 'name'
+                    key: 'name',
+                    width: 180
                 },
                 {
                     title: '性别',
                     key: 'gender',
+                    width: 80,
                     render: function (h, params) {
                         var viewLabel = '未知';
                         if(params.row.gender == 'M'){
@@ -75,7 +78,8 @@ export default {
                 },
                 {
                     title: '岗位',
-                    key: 'station'
+                    key: 'station',
+                    width: 180
                 },
                 {
                     title: '工龄',
@@ -84,20 +88,22 @@ export default {
                 },
                 {
                     title: '民族',
-                    key: 'nationality'
+                    key: 'nationality',
+                    width: 180
                 },
                 {
                     title: '文化程度',
-                    key: 'education'
+                    key: 'education',
+                    width: 180
                 },
                 {
                     title: '体检日期',
-                    key: 'check_date'
+                    key: 'check_date',
+                    width: 180
                 },
                 {
                     title: 'Action',
                     key: 'action',
-                    width: 240,
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
@@ -169,6 +175,27 @@ export default {
     created: function () {
         this.getHealthRecord();
     },
+    beforeRouteEnter (to, from, next) {
+    // 在渲染该组件的对应路由被 confirm 前调用
+    // 不！能！获取组件实例 `this`
+    // 因为当守卫执行前，组件实例还没被创建
+    console.log('beforeRouteEnter');
+    next()
+    },
+    beforeRouteUpdate (to, from, next) {
+    // 在当前路由改变，但是该组件被复用时调用
+    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+    // 可以访问组件实例 `this`
+    console.log('beforeRouteUpdate');
+    next()
+   },
+  beforeRouteLeave (to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+    console.log('beforeRouteLeave');
+    next()
+  },
     methods: {
         getHealthRecord: function () {
             let vm = this;
@@ -209,17 +236,20 @@ export default {
         },
         remove (recordId) {
             let vm = this;
-            this.$Modal.warning({
+            this.$Modal.confirm({
                 title: '提示',
                 content: "<p>确认删除吗，删除后无法恢复！</p>",
                 onOk: () => {
-                axios.post('/harrison/deleteHealthRecordServlet?deleteIDs=' + recordId)
-                    .then(function (response) {
-                        vm.getHealthRecord();
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                    axios.post('/harrison/deleteHealthRecordServlet?deleteIDs=' + recordId)
+                        .then(function (response) {
+                            vm.getHealthRecord();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                onCancel: () => {
+
                 }
                 
             });
@@ -235,7 +265,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     .container {
-        width: 100%;
+        width: 1920px;
         height: 100%;
         overflow: hidden;
     }

@@ -37,13 +37,13 @@
             <Row class="row">
                 <Col span="12">
                     <div class="field-div">
-                        <label class="field-label" style="width:42px;">单位:</label>
+                        <label class="field-label" style="width:48px;">单位:</label>
                         <p class="field-p">{{ record.company }}</p>
                     </div>
                 </Col>
                 <Col span="8">
                     <div class="field-div">
-                        <label class="field-label" style="width:84px;">单位性质:</label>
+                        <label class="field-label" style="width:90px;">单位性质:</label>
                         <p class="field-p">{{ record.company_type }}</p>
                     </div>
                 </Col>
@@ -51,31 +51,31 @@
             <Row class="row">
                 <Col span="4">
                     <div class="field-div">
-                        <label class="field-label" style="width:42px;">姓名:</label>
+                        <label class="field-label" style="width:48px;">姓名:</label>
                         <p class="field-p">{{ record.name }}</p>
                     </div>
                 </Col>
                 <Col span="3">
                     <div class="field-div">
-                        <label class="field-label" style="width:42px;">性别:</label>
+                        <label class="field-label" style="width:48px;">性别:</label>
                         <p class="field-p">{{ record.gender == 'M' ? '男' : '女'}}</p>
                     </div>
                 </Col>
                 <Col span="3">
                     <div class="field-div">
-                        <label class="field-label" style="width:42px;">年龄:</label>
+                        <label class="field-label" style="width:48px;">年龄:</label>
                         <p class="field-p">{{ record.age }}</p>
                     </div>
                 </Col>
                 <Col span="5">
                     <div class="field-div">
-                        <label class="field-label" style="width:42px;">民族:</label>
+                        <label class="field-label" style="width:48px;">民族:</label>
                         <p class="field-p">{{ record.nationality }}</p>
                     </div>
                 </Col>
                 <Col span="5">
                     <div class="field-div">
-                        <label class="field-label" style="width:84px;">文化程度:</label>
+                        <label class="field-label" style="width:90px;">文化程度:</label>
                         <p class="field-p">{{ record.education }}</p>
                     </div>
                 </Col>
@@ -83,19 +83,19 @@
             <Row class="row">
                 <Col span="8">
                     <div class="field-div">
-                        <label class="field-label" style="width:42px;">岗位:</label>
+                        <label class="field-label" style="width:48px;">岗位:</label>
                         <p class="field-p">{{ record.station }}</p>
                     </div>
                 </Col>
                 <Col span="4">
                     <div class="field-div">
-                        <label class="field-label" style="width:42px;">工龄:</label>
+                        <label class="field-label" style="width:48px;">工龄:</label>
                         <p class="field-p">{{ record.work_duration }}</p>
                     </div>
                 </Col>
                 <Col span="8">
                     <div class="field-div">
-                        <label class="field-label" style="width:82px;">身份证号:</label>
+                        <label class="field-label" style="width:90px;">身份证号:</label>
                         <p class="field-p">{{ record.pin_no }}</p>
                     </div>
                 </Col>
@@ -227,8 +227,9 @@
 <style scoped>
     .content {
         font-size: 16px;
-        margin: 0px 200px;
-        min-width: 1300px;
+        margin: 0px auto;
+        min-width: 1280px;
+        width:1280px;
     }
 
     .ctrl-tools {
