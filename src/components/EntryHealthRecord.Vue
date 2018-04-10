@@ -382,6 +382,46 @@
                 this.getHealthRecordById(this.$route.params.id);
             }
         },
+        beforeRouteEnter (to, from, next) {
+            // 在渲染该组件的对应路由被 confirm 前调用
+            // 不！能！获取组件实例 `this`
+            // 因为当守卫执行前，组件实例还没被创建
+            if (!checkCookie()) {
+                console.log('beforeRouteEnter');
+                next(vm => {
+                    // 通过 `vm` 访问组件实例
+                    vm.$Notice.warning({
+                        title: '在线时长超时，请重新登录.',
+                        //desc: '在线时长超时，请重新登录. '
+                    });
+                    vm.$router.replace('/login');
+                    return;
+                })  
+            } else {
+                next();
+            }
+        
+        },
+        
+        beforeRouteUpdate (to, from, next) {
+            // 在当前路由改变，但是该组件被复用时调用
+            // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+            // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+            // 可以访问组件实例 `this`
+            if (!checkCookie()) {
+                console.log('beforeRouteEnter');
+                next(vm => {
+                    // 通过 `vm` 访问组件实例
+                    vm.$Notice.warning({
+                        title: '在线时长超时，请重新登录.',
+                        //desc: '在线时长超时，请重新登录. '
+                    });
+                    vm.$router.replace('/login');
+                })  
+            } else {
+                next();
+            }
+        },
         methods: {
             getTime: function(timeType,time) {
                 console.log(timeType);
@@ -390,7 +430,13 @@
             },
             submitHandler: function () {
                 let vm = this;
-                console.log(vm.record);
+                if (!checkCookie()) {
+                    vm.$router.push('login');
+                    vm.$Notice.waring({
+                        desc: '在线时长超时，请重新登录.'
+                    });
+                    return;
+                } 
                 if (this.record.id > 0) {
                     axios.post('/harrison/updateHealthRecordServlet', JSON.stringify(vm.record))
                         .then(function (response) {
@@ -414,6 +460,10 @@
             },
             getHealthRecordById: function (id) {
                 let vm = this;
+                if (!checkCookie()) {
+                    vm.$router.push('login');
+                    return;
+                } 
                 axios.post('/harrison/getHealthRecordByIdServlet?id=' + id)
                         .then(function (response) {
                             console.log(response);

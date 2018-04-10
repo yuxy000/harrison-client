@@ -4,11 +4,12 @@
             <Icon type="load-c" size="73" class="spin-icon-load"></Icon>
             <div style="font-size:18px;margin-top:8px;">Loading...</div>
         </Spin>
-        <div class="ctrl-tools">
+        <div class="ctrl-tools noprint">
             <Button type="primary" @click="returnHome">返回</Button>
             <Button type="primary" @click="exportPdf">导出为PDF</Button>
+            <Button type="primary" @click="print">打印</Button>
         </div>
-        <div ref="checkTable" class="check-table">
+        <div ref="checkTable" id="checkTable" class="check-table" >
             <Row>
                 <Col span="18">
                     <h1>河北省食品药品从业人员健康检查表</h1>
@@ -57,25 +58,25 @@
                 </Col>
                 <Col span="3">
                     <div class="field-div">
-                        <label class="field-label" style="width:48px;">性别:</label>
+                        <label class="field-label" style="width:54px;">性别:</label>
                         <p class="field-p">{{ record.gender == 'M' ? '男' : '女'}}</p>
                     </div>
                 </Col>
                 <Col span="3">
                     <div class="field-div">
-                        <label class="field-label" style="width:48px;">年龄:</label>
+                        <label class="field-label" style="width:54px;">年龄:</label>
                         <p class="field-p">{{ record.age }}</p>
                     </div>
                 </Col>
                 <Col span="5">
                     <div class="field-div">
-                        <label class="field-label" style="width:48px;">民族:</label>
+                        <label class="field-label" style="width:54px;">民族:</label>
                         <p class="field-p">{{ record.nationality }}</p>
                     </div>
                 </Col>
                 <Col span="5">
                     <div class="field-div">
-                        <label class="field-label" style="width:90px;">文化程度:</label>
+                        <label class="field-label" style="width:96px;">文化程度:</label>
                         <p class="field-p">{{ record.education }}</p>
                     </div>
                 </Col>
@@ -228,8 +229,8 @@
     .content {
         font-size: 16px;
         margin: 0px auto;
-        min-width: 1280px;
-        width:1280px;
+        min-width: 1078px;
+        width:1078px;
     }
 
     .ctrl-tools {
@@ -238,6 +239,11 @@
         height: 60px;
         line-height: 60px;
     }
+     @media print {
+        .noprint{
+            display: none;
+        }
+     }
 
     .photo-div {
         width:148px;
@@ -250,6 +256,7 @@
         padding: 60px;
         background-color: #fff;
     }
+
     h1 {
         height: 206px;
         line-height: 206px;
@@ -295,8 +302,6 @@
         display: flex;
     }
 
-    .field-label {
-    }
     .field-p {
 
         border-bottom: 2px solid #000;
@@ -364,9 +369,52 @@
                 this.getHealthRecordById(this.$route.params.id);
             }
         }, 
+        beforeRouteEnter (to, from, next) {
+            // 在渲染该组件的对应路由被 confirm 前调用
+            // 不！能！获取组件实例 `this`
+            // 因为当守卫执行前，组件实例还没被创建
+            if (!checkCookie()) {
+                console.log('beforeRouteEnter');
+                next(vm => {
+                    // 通过 `vm` 访问组件实例
+                    vm.$Notice.warning({
+                        title: '在线时长超时，请重新登录.',
+                        //desc: '在线时长超时，请重新登录. '
+                    });
+                    vm.$router.replace('/login');
+                    return;
+                })  
+            } else {
+                next();
+            }
+        
+        },
+        
+        beforeRouteUpdate (to, from, next) {
+            // 在当前路由改变，但是该组件被复用时调用
+            // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+            // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+            // 可以访问组件实例 `this`
+            if (!checkCookie()) {
+                console.log('beforeRouteEnter');
+                next(vm => {
+                    // 通过 `vm` 访问组件实例
+                    vm.$Notice.warning({
+                        title: '在线时长超时，请重新登录.',
+                        //desc: '在线时长超时，请重新登录. '
+                    });
+                    vm.$router.replace('/login');
+                })  
+            } else {
+                next();
+            }
+        },
         methods: {
             getHealthRecordById: function (id) {
                 let vm = this;
+                 if (!checkCookie()) {
+                     return;
+                 }
                 this.loading = true;
                 axios.post('/harrison/getHealthRecordByIdServlet?id=' + id)
                         .then(function (response) {
@@ -405,13 +453,16 @@
                         // A9 37×52                              
                         // A10 26×37             
                         //     |——|———————————————————————————|
-                        var doc = new jsPDF("p", "mm", "a4");
+                        var doc = new jsPDF("p", "px", "a1");
                         
-                        doc.addImage(imgData, 'JPEG', 0, 0,210,297);
+                        doc.addImage(imgData, 'JPEG', 90, 80,1078,1476);
 
                         doc.save(vm.record.name + "_" + vm.record.serial_no + '.pdf');
                     }
                 });
+            },
+            print() {
+                window.print();
             }
         }
     }

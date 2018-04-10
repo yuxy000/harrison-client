@@ -7,7 +7,7 @@
                 <Input v-model="user.user_name" placeholder="用户名" />
               </FormItem>
               <FormItem label="密码">
-                <Input type="password" v-model="user.password" placeholder="用户名" />
+                <Input type="password" v-model="user.password" placeholder="密码" />
               </FormItem>
               <FormItem style="margin-left:0px;">
                   <Button type="primary" @click="reset">重置</Button>
@@ -15,8 +15,6 @@
               </FormItem>
           </Form>
       </div>
-      
-      
   </div>
 </template>
 <style scoped>
@@ -36,11 +34,12 @@
         height: 420px;
         border:1px solid #ddd;
         border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.7);
+        background-color: rgba(255, 255, 255);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        box-shadow: 10px 10px 32px rgba(0, 0, 0, .2);
     }
 
     .logo {
@@ -73,6 +72,7 @@
                 axios.post('/harrison/loginServlet?user_name=' + vm.user.user_name + '&password=' + vm.user.password)
                 .then(function (response) {
                     setCookie('username',vm.user.user_name,1);
+                    vm.$router.push('/');
                 })
                 .catch(function (error) {
                     alert('用户名或密码错误.');

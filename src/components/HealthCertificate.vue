@@ -4,11 +4,12 @@
             <Icon type="load-c" size="73" class="spin-icon-load"></Icon>
             <div style="font-size:18px;margin-top:8px;">Loading...</div>
         </Spin>
-        <div class="ctrl-tools">
+        <div class="ctrl-tools noprint">
             <Button type="primary" @click="returnHome">返回</Button>
-            <Button type="primary" @click="exportPdf">导出</Button>
+            <Button type="primary" @click="exportPdf">导出为PDF</Button>
+            <Button type="primary" @click="print">打印</Button>
         </div>
-        <div ref="checkTable" class="check-table">
+        <div ref="checkTable" class="check-table check-table-print">
             <Row class="row">
                 <Col span="8">
                     <div class="field-div">
@@ -63,7 +64,7 @@
     .content {
         font-size: 24px;
         margin: 0px auto;
-        width: 900px;
+        width: 874px;
         display: flex;
         flex-direction: column;
     }
@@ -84,13 +85,23 @@
         margin-left: 80px;
     }
 
+    
+     @media print {
+        .noprint{
+            display: none;
+        }
+        .check-table-print {
+            transform: scale(0.5);
+        }
+     }
+
     .check-table {
         padding: 64px 64px 96px 64px;
         border: 1px solid #ddd;
         background-color: #fff;
         border-radius: 6px;
-        height: 634px;
-        width: 900px;
+        height: 614px;
+        width: 874px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -181,8 +192,52 @@
 
             }
         },
+        
+        beforeRouteEnter (to, from, next) {
+            // 在渲染该组件的对应路由被 confirm 前调用
+            // 不！能！获取组件实例 `this`
+            // 因为当守卫执行前，组件实例还没被创建
+            if (!checkCookie()) {
+                console.log('beforeRouteEnter');
+                next(vm => {
+                    // 通过 `vm` 访问组件实例
+                    vm.$Notice.warning({
+                        title: '在线时长超时，请重新登录.',
+                        //desc: '在线时长超时，请重新登录. '
+                    });
+                    vm.$router.replace('/login');
+                    return;
+                })  
+            } else {
+                next();
+            }
+        
+        },
+        
+        beforeRouteUpdate (to, from, next) {
+        // 在当前路由改变，但是该组件被复用时调用
+        // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+        // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+        // 可以访问组件实例 `this`
+        if (!checkCookie()) {
+            console.log('beforeRouteEnter');
+            next(vm => {
+                // 通过 `vm` 访问组件实例
+                vm.$Notice.warning({
+                    title: '在线时长超时，请重新登录.',
+                    //desc: '在线时长超时，请重新登录. '
+                });
+                vm.$router.replace('/login');
+            })  
+        } else {
+            next();
+        }
+    },
         methods: {
             getHealthRecordById: function (id) {
+                if (!checkCookie()) {
+                    return;
+                }
                 let vm = this;
                 this.loading = true;
                 axios.post('/harrison/getHealthRecordByIdServlet?id=' + id)
@@ -222,13 +277,16 @@
                         // A9 37×52                              
                         // A10 26×37             
                         //     |——|———————————————————————————|
-                        var doc = new jsPDF("1", "mm", "a6");
+                        var doc = new jsPDF("1", "mm", "a4");
                         
-                        doc.addImage(imgData, 'JPEG', 0, 0,105,74);
+                        doc.addImage(imgData, 'JPEG', 50, 30,74,52);
 
                         doc.save('certificate_' + vm.record.name + "_" + vm.record.serial_no + '.pdf');
                     }
                 });
+            },
+            print() {
+                window.print();
             }
         }
     }
