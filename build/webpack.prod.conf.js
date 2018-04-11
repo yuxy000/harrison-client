@@ -18,7 +18,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
       //extract: true, //default
-      extract: false,
+      extract: false,   // 解决导出的css先图标不显示的问题 例如Iview css中的图标
       usePostCSS: true
     })
   },

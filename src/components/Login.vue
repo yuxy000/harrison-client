@@ -71,8 +71,15 @@
                 }
                 axios.post('/harrison/loginServlet?user_name=' + vm.user.user_name + '&password=' + vm.user.password)
                 .then(function (response) {
-                    setCookie('username',vm.user.user_name,1);
-                    vm.$router.push('/');
+                    console.log(response)
+                    if (response.data) {
+                        setCookie('username',vm.user.user_name,1);
+                        vm.$router.push('/');
+                    } else {
+                        alert('用户名或密码错误.');
+                        return;
+                    }
+                    
                 })
                 .catch(function (error) {
                     alert('用户名或密码错误.');
