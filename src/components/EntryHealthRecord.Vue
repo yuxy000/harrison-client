@@ -7,14 +7,14 @@
         <h1>河北省食品药品从业人员健康检查表</h1>
         <Form :label-width="80" :model="record">
             <Row>
-                <Col span="6">
-                    <FormItem label="体检日期:" style="width:240px">
+                <Col span="8">
+                    <FormItem label="体检日期:"  style="float:left;">
                         <DatePicker type="date" placeholder="选择体检日期" :value="record.check_date" @on-change="getTime('check_date', $event)"></DatePicker>
                     </FormItem>
                 </Col>
-            
-                <Col span="6">
-                    <FormItem label="编号:"  style="width:360px">
+
+                <Col span="8">
+                    <FormItem label="编号:" >
                         <Input type="text" disabled placeholder="编号" v-model="record.serial_no" />
                     </FormItem>
                 </Col>
@@ -272,9 +272,9 @@
                     <FormItem>
                         <Button type="ghost" @click="cancelHandler">取消</Button>
                     </FormItem>
-                </Col>                
+                </Col>
             </Row>
-            
+
         </Form>
         <Modal
             v-model="showModel"
@@ -282,14 +282,14 @@
             width="702"
             @on-ok="okHandler"
             @on-cancel="cancelPhotoHandler">
-             
+
             <div class="booth">
                 <video ref="video" width="295" height="416"></video>
                 <Button type="primary" @click="snap" style="width:60px;height:32px;">拍照</Button>
                 <div class="photo-canvas">
                     <canvas ref='canvas' width='295' height='413'></canvas>
                 </div>
-               
+
             </div>
         </Modal>
     </div>
@@ -300,7 +300,7 @@
         font-size: 12px;
         margin: 0px auto;
         width: 66%;
-        min-width: 992px;
+        min-width: 720px;
     }
     h1 {
         height: 60px;
@@ -322,7 +322,7 @@
     .info-container {
         width: calc(100% - 280px);
     }
-    
+
     .photo-container {
         width: 280px;
         margin-left: 100px;
@@ -330,8 +330,8 @@
 
     .photo-div {
         width:148px;
-        height:206px; 
-        background-image: url('../assets/user.jpg'); 
+        height:206px;
+        background-image: url('../assets/user.jpg');
         background-size: 148px 206px;
     }
 
@@ -347,7 +347,7 @@
         width: 295px;
         height: 413px;
         background-image: url('../assets/user.jpg');
-        background-size: 295px 413px; 
+        background-size: 295px 413px;
     }
 
 </style>
@@ -426,13 +426,13 @@
                     });
                     vm.$router.replace('/login');
                     return;
-                })  
+                })
             } else {
                 next();
             }
-        
+
         },
-        
+
         beforeRouteUpdate (to, from, next) {
             // 在当前路由改变，但是该组件被复用时调用
             // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
@@ -447,7 +447,7 @@
                         //desc: '在线时长超时，请重新登录. '
                     });
                     vm.$router.replace('/login');
-                })  
+                })
             } else {
                 next();
             }
@@ -466,7 +466,7 @@
                         desc: '在线时长超时，请重新登录.'
                     });
                     return;
-                } 
+                }
                 if (this.record.id > 0) {
                     axios.post('/harrison/updateHealthRecordServlet', JSON.stringify(vm.record))
                         .then(function (response) {
@@ -485,7 +485,7 @@
                         .catch(function (error) {
                             console.log(error);
                         });
-                
+
                 }
             },
             getHealthRecordById: function (id) {
@@ -493,7 +493,7 @@
                 if (!checkCookie()) {
                     vm.$router.push('login');
                     return;
-                } 
+                }
                 axios.post('/harrison/getHealthRecordByIdServlet?id=' + id)
                         .then(function (response) {
                             console.log(response);
@@ -516,17 +516,17 @@
                 var vm = this;
                 this.showModel = true;
                 var vendorUrl = window.URL || window.webkitURL;
-        
+
                 //媒体对象
                 navigator.getMedia = navigator.getUserMedia ||
                                     navagator.webkitGetUserMedia ||
                                     navigator.mozGetUserMedia ||
                                     navigator.msGetUserMedia;
                 navigator.getMedia({
-                    video: { 
-                        width: 295, 
-                        height: 413 
-                    }, 
+                    video: {
+                        width: 295,
+                        height: 413
+                    },
                     audio: false,  //不适用音频
                 }, function(stream){
                     vm.mediaStreamTrack = typeof stream.stop === 'function' ? stream : stream.getTracks()[1];
