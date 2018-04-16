@@ -93,7 +93,7 @@
     .content {
         font-size: 26px;
         margin: 0px auto;
-        width: 900px;
+        width: 85.6mm;
         display: flex;
         flex-direction: column;
     }
@@ -112,23 +112,23 @@
             display: none;
         }
         .check-table-print {
-            transform: scale(0.5);
+            /*transform: scale(0.5);*/
         }
      }
 
     .check-table {
-        padding: 48px 84px;
+        padding: 4.8mm 7.8mm;
         border: 1px solid #ddd;
         background-color: #fff;
-        height: 567px;
-        width: 900px;
+        height: 54mm;
+        width: 85.6mm;
         display: flex;
         flex-direction: column;
     }
 
     .row {
         padding: 32px 0;
-        width: 900px;
+        width: 85.6mm;
     }
 
     .slogan {
@@ -140,7 +140,7 @@
     }
 
     .health-title {
-      font-size: 36px;
+      font-size: 42px;
       font-family: '宋体';
       font-weight: bold;
     }

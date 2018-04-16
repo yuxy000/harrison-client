@@ -284,7 +284,7 @@
             @on-cancel="cancelPhotoHandler">
 
             <div class="booth">
-                <video ref="video" width="295" height="416"></video>
+                <video ref="video" width="295" height="413"></video>
                 <Button type="primary" @click="snap" style="width:60px;height:32px;">拍照</Button>
                 <div class="photo-canvas">
                     <canvas ref='canvas' width='295' height='413'></canvas>
@@ -522,6 +522,8 @@
                                     navagator.webkitGetUserMedia ||
                                     navigator.mozGetUserMedia ||
                                     navigator.msGetUserMedia;
+                                    console.log(navigator.getMedia);
+
                 navigator.getMedia({
                     video: {
                         width: 295,
@@ -529,8 +531,6 @@
                     },
                     audio: false,  //不适用音频
                 }, function(stream){
-                    vm.mediaStreamTrack = typeof stream.stop === 'function' ? stream : stream.getTracks()[1];
-                    console.log(stream);
                     vm.$refs.video.src = vendorUrl.createObjectURL(stream, );
                     vm.$refs.video.play();
                 }, function(error) {

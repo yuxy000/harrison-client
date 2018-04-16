@@ -6,22 +6,23 @@
     </Spin>
     <div class="ctrl-toos">
         <Button type="primary" @click="addHealthRecord">添加</Button>
+        <Button type="primary" @click="printBack" style="margin-left:6px;">证明背面</Button>
         <Select v-model="searchType" style="width:120px;margin-left:36px;margin-right:4px;">
             <Option v-for="item in searchTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         <Input v-model="searchValue" style="width:240px;" @on-enter="searchRecord">
             <Button slot="append" icon="ios-search" @click="searchRecord"></Button>
         </Input>
-        <div style="width:100%">
+        <div style="flex:1;">
             <Button class="logout" type="error" @click="logout">退出</Button>
         </div>
-        
+
     </div>
    <Table border :columns="tableColumns" :data="records" class="record-table" :height="tableHeight"></Table>
    <div class="i-page">
         <Page :total="recordTotal" show-sizer show-total @on-change="pageChangeHandler" @on-page-size-change="pageSizeChangeHandler"></Page>
    </div>
-   
+
   </div>
 </template>
 
@@ -41,25 +42,25 @@ export default {
             ],
             searchValue: '',
             tableColumns: [
-                {
-                    title: 'ID',
-                    key: 'id',
-                    width: 80
-                },
+                // {
+                //     title: 'ID',
+                //     key: 'id',
+                //     width: 80
+                // },
                 {
                     title: '序号',
                     key: 'serial_no',
-                    width:180
+                    width:140
                 },
                 {
                     title: '姓名',
                     key: 'name',
-                    width: 180
+                    width: 90
                 },
                 {
                     title: '性别',
                     key: 'gender',
-                    width: 80,
+                    width: 70,
                     render: function (h, params) {
                         var viewLabel = '未知';
                         if(params.row.gender == 'M'){
@@ -73,37 +74,37 @@ export default {
                 {
                     title: '年龄',
                     key: 'age',
-                    width: 80
+                    width: 70
                 },
                 {
                     title: '身份证号',
                     key: 'pin_no',
-                    width: 180
+                    width: 170
                 },
                 {
                     title: '岗位',
                     key: 'station',
-                    width: 180
+                    width: 120
                 },
                 {
                     title: '工龄',
                     key: 'work_duration',
-                    width:80
+                    width:70
                 },
                 {
                     title: '民族',
                     key: 'nationality',
-                    width: 180
+                    width: 120
                 },
                 {
                     title: '文化程度',
                     key: 'education',
-                    width: 180
+                    width: 90
                 },
                 {
                     title: '体检日期',
                     key: 'check_date',
-                    width: 180
+                    width: 110
                 },
                 {
                     title: 'Action',
@@ -174,7 +175,7 @@ export default {
         }
     },
     mounted: function () {
-        this.tableHeight = window.innerHeight - 102; 
+        this.tableHeight = window.innerHeight - 102;
     },
     created: function () {
         this.getHealthRecord();
@@ -190,11 +191,11 @@ export default {
                 vm.$Notice.waring({
                     desc: '在线时长超时，请重新登录.'
                 });
-            })  
+            })
         } else {
             next();
         }
-    
+
     },
     methods: {
         getHealthRecord: function () {
@@ -208,7 +209,7 @@ export default {
                     });
                 }
                 return;
-            } 
+            }
             axios.post('/harrison/tableJsonTest?rows=' + this.pageSize + '&page=' + this.page + '&' + this.searchType + '=' + this.searchValue)
                 .then(function (response) {
                     console.log(response);
@@ -233,7 +234,10 @@ export default {
             this.getHealthRecord();
         },
         addHealthRecord: function () {
-            this.$router.push('entry-record');
+          this.$router.push('entry-record');
+        },
+        printBack() {
+          this.$router.push('health-certificate-back');
         },
         updateRecord (recordId) {
             this.$router.push('entry-record/' + recordId);
@@ -252,7 +256,7 @@ export default {
                     desc: '在线时长超时，请重新登录.'
                 });
                 return;
-            } 
+            }
             this.$Modal.confirm({
                 title: '提示',
                 content: "<p>确认删除吗，删除后无法恢复！</p>",
@@ -268,7 +272,7 @@ export default {
                 onCancel: () => {
 
                 }
-                
+
             });
         },
         searchRecord: function () {
@@ -286,8 +290,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     .container {
-        width: 1920px;
+        width: 1280px;
         height: 100%;
+        margin: 0 auto;
         overflow: hidden;
     }
 
