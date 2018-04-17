@@ -32,7 +32,8 @@
 </template>
 <style scoped>
     .content {
-        font-size: 20px;
+        color: #000000;
+        font-size: 28px;
         margin: 0px auto;
         width: 900px;
         display: flex;
@@ -58,8 +59,7 @@
      }
 
     .check-table {
-        padding: 56px 84px;
-        border: 1px solid #ddd;
+        padding: 40px 44px;
         background-color: #fff;
         height: 567px;
         width: 900px;
@@ -68,7 +68,7 @@
     }
 
     .health-title {
-      font-size: 32px;
+      font-size: 45px;
       font-family: '宋体';
       font-weight: bold;
     }
@@ -88,11 +88,13 @@
         text-align: left;
         height: 54px;
         line-height: 54px;
+        font-family: "黑体";
     }
 
     .field-company {
       text-align: right;
       padding-right: 64px;
+      font-family: "黑体";
     }
 </style>
 <script>

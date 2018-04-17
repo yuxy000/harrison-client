@@ -11,14 +11,14 @@
         </div>
         <div ref="checkTable" class="check-table check-table-print">
           <Row>
-            <Col offset="4">
+            <Col offset="5">
               <div class="slogan">
                 关注民生健康
               </div>
             </Col>
           </Row>
           <Row >
-            <Col offset="10">
+            <Col offset="11">
               <div class="slogan">
                   共筑和谐社会
               </div>
@@ -34,15 +34,15 @@
           <div class="info-div">
             <div class="info-left">
               <Row>
-              <Col span="12">
+              <Col span="16">
                   <div class="field-div">
-                      <label class="field-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:&nbsp;</label>
+                      <label class="field-label">姓&nbsp;&nbsp;&nbsp;名:&nbsp;</label>
                       <label class="field-p">{{ record.name }}</label>
                   </div>
               </Col>
-              <Col span="12">
+              <Col span="8">
                   <div class="field-div">
-                      <label class="field-label">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:&nbsp;</label>
+                      <label class="field-label">性&nbsp;&nbsp;&nbsp;别:&nbsp;</label>
                       <label class="field-p">{{ record.gender == 'M' ? '男' : '女'}}</label>
                   </div>
               </Col>
@@ -91,8 +91,8 @@
 </template>
 <style scoped>
     .content {
+        color:#000000;
         font-size: 26px;
-        margin: 0px auto;
         width: 900px;
         display: flex;
         flex-direction: column;
@@ -117,8 +117,7 @@
      }
 
     .check-table {
-        padding: 48px 84px;
-        border: 1px solid #ddd;
+        padding: 30px 44px;
         background-color: #fff;
         height: 567px;
         width: 900px;
@@ -132,15 +131,15 @@
     }
 
     .slogan {
-      font-size: 42px;
+      font-size: 45px;
       font-family: '华文行楷';
       color: #000;
       text-align: left;
-      height: 54px;
+      height: 55px;
     }
 
     .health-title {
-      font-size: 36px;
+      font-size: 45px;
       font-family: '宋体';
       font-weight: bold;
     }
@@ -167,9 +166,11 @@
 
 
     .field-div {
+        font-family:"黑体" ;
         text-align: left;
-        height: 50px;
-        line-height: 50px;
+        font-size: 26px;
+        height: 55px;
+        line-height: 55px;
     }
 </style>
 <script>
