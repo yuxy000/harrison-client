@@ -237,7 +237,7 @@ export default {
           this.$router.push('entry-record');
         },
         printBack() {
-          this.$router.push('health-certificate-back');
+          this.$router.push('health-certificate-back-mm');
         },
         updateRecord (recordId) {
             this.$router.push('entry-record/' + recordId);
@@ -246,7 +246,7 @@ export default {
             this.$router.push('show-record/' + recordId);
         },
         update: function (recordId) {
-            this.$router.push('health-certificate/' + recordId);
+            this.$router.push('health-certificate-mm/' + recordId);
         },
         remove (recordId) {
             let vm = this;

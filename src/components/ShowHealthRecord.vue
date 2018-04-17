@@ -18,7 +18,7 @@
                     <div class="photo-div">
                         <img :src="record.photo" height="100%" width="100%" v-show="record.photo"/>
                     </div>
-                    
+
                 </Col>
             </Row>
             <Row class="row" >
@@ -223,7 +223,7 @@
             <p class="note">*说明：发现谷丙转氨酶异常的，方加做HAV-IgM、HEV-IgM两个指标</p>
         </div>
     </div>
-  
+
 </template>
 <style scoped>
     .content {
@@ -246,10 +246,10 @@
      }
 
     .photo-div {
-        width:148px;
-        height:206px; 
-        background-image: url('../assets/user.jpg'); 
-        background-size: 148px 206px;
+        width:141px;
+        height:206px;
+        background-image: url('../assets/user.jpg');
+        background-size: 141px 206px;
     }
 
     .check-table {
@@ -265,13 +265,13 @@
     }
 
     .row {
-        
+
         padding-bottom:4px;
         padding-top: 8px;
     }
 
     .row:nth-child(2) {
-        border-bottom:2px solid #000; 
+        border-bottom:2px solid #000;
     }
 
     table {
@@ -286,7 +286,7 @@
 
     td {
         border: 1px solid #000;
-        
+
     }
 
     .note {
@@ -368,7 +368,7 @@
             if (this.$route.params.id) {
                 this.getHealthRecordById(this.$route.params.id);
             }
-        }, 
+        },
         beforeRouteEnter (to, from, next) {
             // 在渲染该组件的对应路由被 confirm 前调用
             // 不！能！获取组件实例 `this`
@@ -383,13 +383,13 @@
                     });
                     vm.$router.replace('/login');
                     return;
-                })  
+                })
             } else {
                 next();
             }
-        
+
         },
-        
+
         beforeRouteUpdate (to, from, next) {
             // 在当前路由改变，但是该组件被复用时调用
             // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
@@ -404,7 +404,7 @@
                         //desc: '在线时长超时，请重新登录. '
                     });
                     vm.$router.replace('/login');
-                })  
+                })
             } else {
                 next();
             }
@@ -440,21 +440,21 @@
                     onrendered: function(canvas) {
                         // 从 canvas 提取图片数据
                         var imgData = canvas.toDataURL('image/jpeg');
-                        // |—————————————————————————————|                     
-                        // A0 841×1189                           
-                        // A1 594×841                            
-                        // A2 420×594                            
-                        // A3 297×420                            
-                        // A4 210×297                            
-                        // A5 148×210                            
-                        // A6 105×148                            
-                        // A7 74×105                             
-                        // A8 52×74                              
-                        // A9 37×52                              
-                        // A10 26×37             
+                        // |—————————————————————————————|
+                        // A0 841×1189
+                        // A1 594×841
+                        // A2 420×594
+                        // A3 297×420
+                        // A4 210×297
+                        // A5 148×210
+                        // A6 105×148
+                        // A7 74×105
+                        // A8 52×74
+                        // A9 37×52
+                        // A10 26×37
                         //     |——|———————————————————————————|
                         var doc = new jsPDF("p", "px", "a1");
-                        
+
                         doc.addImage(imgData, 'JPEG', 90, 80,1078,1476);
 
                         doc.save(vm.record.name + "_" + vm.record.serial_no + '.pdf');

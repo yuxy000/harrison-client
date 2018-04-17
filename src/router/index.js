@@ -3,8 +3,8 @@ import Router from 'vue-router'
 import RecordList from '@/components/RecordList'
 import EntryHealthRecord from '@/components/EntryHealthRecord'
 import ShowHealthRecord from '@/components/ShowHealthRecord'
-import HealthCertificate from '@/components/HealthCertificate'
-import HealthCertificateBack from '@/components/HealthCertificateBack'
+import HealthCertificateMm from '@/components/HealthCertificateMm'
+import HealthCertificateBackMm from '@/components/HealthCertificateBackMm'
 import Login from '@/components/Login'
 
 Vue.use(Router)
@@ -32,14 +32,14 @@ export default new Router({
       component: ShowHealthRecord
     },
     {
-      path: '/health-certificate/:id',
-      name: 'HealthCertificate',
-      component: HealthCertificate
+      path: '/health-certificate-mm/:id',
+      name: 'HealthCertificateMm',
+      component: HealthCertificateMm
     },
     {
-      path: '/health-certificate-back',
-      name: 'HealthCertificateBack',
-      component: HealthCertificateBack
+      path: '/health-certificate-back-mm',
+      name: 'HealthCertificateBackMm',
+      component: HealthCertificateBackMm
     },
     {
       path: '/login',

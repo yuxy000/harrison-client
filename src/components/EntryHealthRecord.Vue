@@ -284,10 +284,10 @@
             @on-cancel="cancelPhotoHandler">
 
             <div class="booth">
-                <video ref="video" width="295" height="413"></video>
+                <video ref="video" width="295" height="429"></video>
                 <Button type="primary" @click="snap" style="width:60px;height:32px;">拍照</Button>
                 <div class="photo-canvas">
-                    <canvas ref='canvas' width='295' height='413'></canvas>
+                    <canvas ref='canvas' width='295' height='429'></canvas>
                 </div>
 
             </div>
@@ -329,10 +329,10 @@
     }
 
     .photo-div {
-        width:148px;
+        width:141px;
         height:206px;
         background-image: url('../assets/user.jpg');
-        background-size: 148px 206px;
+        background-size: 141px 206px;
     }
 
     .booth {
@@ -347,7 +347,7 @@
         width: 295px;
         height: 413px;
         background-image: url('../assets/user.jpg');
-        background-size: 295px 413px;
+        background-size: 295px 429px;
     }
 
 </style>
@@ -541,15 +541,15 @@
             okHandler: function () {
                 this.record.photo = this.$refs.canvas.toDataURL("image/png");
                 console.log(this.record.photo);
-                this.$refs.canvas.getContext('2d').clearRect(0, 0, 295, 413);
+                this.$refs.canvas.getContext('2d').clearRect(0, 0, 295, 429);
 
             },
             cancelPhotoHandler: function () {
-                this.$refs.canvas.getContext('2d').clearRect(0, 0, 295, 413);
+                this.$refs.canvas.getContext('2d').clearRect(0, 0, 295, 429);
             },
             snap: function () {
                 //绘制canvas图形
-                this.$refs.canvas.getContext('2d').drawImage(this.$refs.video, 0, 0, 295, 413);
+                this.$refs.canvas.getContext('2d').drawImage(this.$refs.video, 0, 0, 295, 429);
             }
          }
     }
